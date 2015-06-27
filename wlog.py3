@@ -5,7 +5,7 @@ import sys
 import math
 import mistune
 
-site_name = "4x13"
+site_name = "site"
 blog_title = "wlog"
 pages_dir = "./wlog-pages/"
 pagin = 4
