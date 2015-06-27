@@ -1,0 +1,12 @@
+<title>{0} :: {1}</title>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<meta name=viewport content="width=550px">
+
+<h1>{1}</h1>
+<a href="/scripts/wlog/"><img src="/icons/blog.png" alt="{1}"></a>
+<br>
+[<a href="/">{0}</a>] [<a href=".">{1}</a>] ..
+[<a href="/scripts/wlog/hellow">hello world</a>]
+[<a href="/scripts/wlog-pages/">posts dir</a>]
+<!-- [<a href="/blog/index.rss">rss</a>]-->
+<hr size="0.25" align="left" noshade>
