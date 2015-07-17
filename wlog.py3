@@ -83,16 +83,6 @@ def post_printer(page_name,preview=0,tag="",date="0"):
                 post_date = contents.pop(0)[5:]
             else:
                 post_date = "Stickied post" # sticky, draft, etc?
-            previewed = []
-            for line in contents[1:]:
-                if line[:len(readmore)] == readmore:
-                    if preview == 1:
-                        previewed.append("\n<a href='"+page_name+"'>Read more...</a>")
-                        break
-                    else:
-                        previewed.append(line[len(readmore):])
-                else:
-                    previewed.append(line)
             post_tag = str(page_name.split('/')[0])
             if post_tag != page_name:
                 tag_alias = "/"+post_tag+"/"
@@ -101,6 +91,16 @@ def post_printer(page_name,preview=0,tag="",date="0"):
                 post_tag = "."
                 tag_alias = "/"
             page_path = str(blog_url[:-1]+tag_alias+page_name)
+            previewed = []
+            for line in contents[1:]:
+                if line[:len(readmore)] == readmore:
+                    if preview == 1:
+                        previewed.append("\n<a href='"+page_path+"'>Read more...</a>")
+                        break
+                    else:
+                        previewed.append(line[len(readmore):])
+                else:
+                    previewed.append(line)
             post_heading(contents[0], post_date, page_path, post_tag, tag_alias)
             print(markdown(''.join(previewed)))
             print('\n<hr align="left" size="0.25" noshade="">')
@@ -141,10 +141,6 @@ def post_list(pages_dir,page_no=0):
     post_list_pages(dict,page_no,tag)
 
 def post_list_pages(dict,page_no=1,tag=""):
-# confusing vars... page_no is the current page number, page_nos = # of pages, 
-# and post_no is total posts. these vars are re-used, so take note
-# global pagin=4 means 4 posts per page.
-
     post_no = (len(dict))
     page_nos=(math.ceil(post_no/pagin))
     if page_no > page_nos:
