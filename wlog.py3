@@ -15,7 +15,7 @@ readmore = "<...> "              # Line beginning with this creates a preview fo
 index_message = """<div style='background-color:#aaa'>
 <b>wlog</b>, a public domain weblog
 <small style='float:right'>
-<a href='./hellow'>(v0.5 // 165 sloc)</a></small></div><hr>"""
+<a href='./hellow'>(v0.5 // 150 sloc)</a></small></div><hr>"""
 
 def escape_html(text):
     """escape strings for display in HTML"""
