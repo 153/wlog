@@ -1,4 +1,4 @@
-# wlog
+# wlog v0.5
 public domain python weblog 
 
 Sample theme and entry in ./pages/
