@@ -1,0 +1,83 @@
+a:link, a:active, a:visited, a:hover {
+  color:#030;
+}
+
+body {
+  max-width: 500px;
+  text-align: justify;
+  background-color: #C3C3C3;
+  font-family: Trebuchet, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+img {
+  border: none;
+  border-style: none;
+  max-width:495px;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid #000;
+}
+
+th, td {
+  border: 1px solid #000; 
+  padding: 2px
+}
+
+.column-left {
+  float: left; 
+  width: 33%; 
+}
+
+.column-right{ 
+  float: right; 
+  width: 33%; 
+}
+
+.column-center{ 
+  display: inline-block; 
+  width: 33%; 
+}
+
+
+ol {
+  list-style-type: none;
+  counter-reset: item;
+  margin: 0;
+  padding: 0;
+}
+
+ol > li {
+  display: table;
+  counter-increment: item;
+  margin-bottom: 0.6em;
+}
+
+ol > li:before {
+  content: counters(item, ".") ". ";
+  display: table-cell;
+  padding-right: 0.6em;    
+}
+
+li ol > li {
+  margin: 0;
+}
+
+li ol > li:before {
+  content: counters(item, ".") " ";
+}
