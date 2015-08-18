@@ -1,0 +1,39 @@
+a:link, a:active, a:visited, a:hover {
+ color: #050;}
+
+body {				 
+    background-color: #f3f3f3;
+}
+
+.head {
+    background-color: #A5B8A1;
+    padding-top: 12px;
+    padding-bottom: 4px;
+}
+
+.navbar.fullwidth {
+    background-color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 3px solid black;
+}
+
+.units-row {
+    margin-bottom: 0;
+    border-bottom: 4px solid black;
+}
+
+.breadcrumbs-path {
+    background-color: #fff;
+    margin-top: 0px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom:0px;
+    padding-left: 15px;
+    color: #fff;
+}
+
+.body-content {background-color: #fafafa;
+	       border-top: 3px solid black;
+	       padding-left: 6px;
+	       padding-right: 6px;}
