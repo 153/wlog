@@ -1,4 +1,4 @@
-# wlog v0.5
+# wlog v0.7
 public domain python weblog -- software of http://4x13.net/wlog/
 
 Sample theme and entry in this repo's ./pages/
