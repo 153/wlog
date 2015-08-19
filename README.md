@@ -20,6 +20,7 @@ subdirectories, readmore
 | v0.1.7  | 07-11 19:00 | tagging begun
 | v0.1.8  | 07-12 15:00 | tagging finished
 | v0.5    | 07-16 20:00 | readmore added, script basically done.
+| v0.7    | 07-28 20:00 | Reworked the script a little and added a theme
 
 
 To install: 
