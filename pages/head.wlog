@@ -1,12 +1,24 @@
-<title>{0} :: {1}</title>
-<link rel="stylesheet" type="text/css" href="/style.css">
-<meta name=viewport content="width=550px">
+<head><link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/buttondown.css">
+<link rel="alternate" type="application/atom+xml" title="wlog"
+href="/wlog/posts.atom" />
+<meta name=viewport content="width=device-width, initial-scale=0.8">
+<title>{1}{2}</title>
 
+<body style="max-width: 650px; margin-left: auto; margin-right: auto;
+padding: 2% 2% 2% 2%;">
+<center>
 <h1>{1}</h1>
-<a href="/scripts/wlog/"><img src="/icons/blog.png" alt="{1}"></a>
-<br>
-[<a href="/">{0}</a>] [<a href=".">{1}</a>] ..
-[<a href="/scripts/wlog/hellow">hello world</a>]
-[<a href="/scripts/wlog-pages/">posts dir</a>]
+<a href="/wlog/"><img src="/icons/wlog.png" alt="{1}"></a>
+<br>[<a href="/">{0}</a>] [<a href="/wlog">{1}</a>]
+[<a href="/wlog/posts.atom">RSS</a>]
+&diams;
+[<a href="/wlog/meta/">meta</a>]
+[<a href="/wlog/life/">life</a>]
+[<a href="/wlog/philo/">philo</a>]
+[<a href="/wlog/tech/">tech</a>]
+[<a href="/wlog/misc/">misc</a>]
+<br><small><em>(code is alpha, expect nothing)</em> + 
+(<a href="/script/wlog.py3">modern theme</a>)</em></small>
 <!-- [<a href="/blog/index.rss">rss</a>]-->
-<hr size="0.25" align="left" noshade>
+</center>

@@ -1,5 +1,5 @@
-<head><link rel="stylesheet" href="/script/kube.min.css">
-<link rel="stylesheet" type="text/css" href="/script/neo.css">
+<head><link rel="stylesheet" href="/misc/kube.min.css">
+<link rel="stylesheet" type="text/css" href="/misc/neo.css">
 <meta name=viewport content="width=device-width, initial-scale=0.8">
 <title>{0} {1}</title>
 
@@ -17,6 +17,7 @@ height="36px" width="36px"></a> {1}</h1>
 <li><a href="{3}meta/">meta</a>
 <li><a href="{3}life/">life</a>
 <li><a href="{3}philo/">philo</a>
+<li><a href="{3}misc/">misc</a>
 </ul></nav>
 <!-- hr size="0.25" align="left" noshade -->
 <div class="body-content"><br>

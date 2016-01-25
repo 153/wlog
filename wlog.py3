@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-import cgi, os, sys, math, mistune
+import cgi, os, sys, math, mistune, re
 
-site_name = "sandbox"            # Link to the homepage with this name
+site_name = "4x13"            # Link to the homepage with this name
 blog_title = "wlog"              # Rename wlog to anything you want :)
-#blog_url = "/wlog/"             # Absolute location for wlog on the server
-blog_url = "/script/wlog.py3"    
+full_url = "http://4x13.net" # used for RSS
+t_z = ":00-08:00"	# used for RSS
+blog_url = "/wlog/"              # Absolute location for wlog on the server
+#blog_url = "/script/wlog.py3"              # Absolute location for wlog on the server
 pages_dir = "./pages/"           # Location of blog posts relative to script on disk
-blog_theme = "neo"               # Use head.wlog and post.wlog for wlog theme
-pagin = 4                        # Change this to change how many posts are shown per page
+blog_theme = "wlog"              # Use head.wlog and post.wlog for wlog theme
+pagin = 6                       # Change this to change how many posts are shown per page
 markdown = mistune.Markdown()
 pages_extension = ".md"          # Default file extension. Markdown recommended
 len_ext = len(pages_extension)
 readmore = "<...> "              # Line beginning with this creates a preview for indexing
-post_prefix = blog_url+"?title=" # Optionally change to blog_url
+#post_prefix = blog_url+"?title=" # Optionally change to blog_url
+post_prefix = blog_url # Optionally change to "blog_url+"?title="
 
 def escape_html(text):
     """escape strings for display in HTML"""
@@ -25,6 +28,9 @@ def main():
     form = cgi.FieldStorage()
     page_name = form.getvalue('title')
     if page_name:
+        if page_name == 'posts.atom':
+            do_rss()
+            return
         page_name = escape_html(page_name)            
         wlog_head(page_name) 
         if os.path.isfile(pages_dir+page_name+pages_extension):
@@ -51,7 +57,7 @@ def main():
                         post_heading("404 :: "+page_name,"page not found ...",".")
                         post_printer(page_name)   # fix this
     else:
-        wlog_head()
+        wlog_head("1")
         post_list(pages_dir,1)
             
 def wlog_head(page_name=' '):
@@ -104,7 +110,7 @@ def post_printer(page_name,preview=0,tag="",date="0"):
 
 def wlog_foot(page_no=0,page_nos=0,page_tag=""):
     print("""<hr><a href="/">[{0}]</a> &diams; 
-          <a href="{2}/">[{1}]</a>""".format(site_name,blog_title,blog_url))
+          <a href="{2}">[{1}]</a>""".format(site_name,blog_title,blog_url))
     if page_tag == "/":
         page_tag = ""
     if page_no > 1:
@@ -115,7 +121,7 @@ def wlog_foot(page_no=0,page_nos=0,page_tag=""):
         print("&diams; ["+str(page_no)+"/"+str(page_nos)+"]")
     print("""<hr size="1" align="left" noshade>""")
 
-def post_list(pages_dir,page_no=0):
+def post_list(pages_dir,page_no=0,rss=0):
     page_path = []
     for root, dirs, fils in os.walk(pages_dir):
         for filename in fils:
@@ -132,7 +138,13 @@ def post_list(pages_dir,page_no=0):
                     post_date='s' # work on this sometime
                 tag = str(pages_dir.split('/')[-1])
                 dict[post_date] = each_page[:-len_ext]
-    post_list_pages(dict,page_no,tag)
+    if rss != 1:
+        post_list_pages(dict,page_no,tag)
+    else:
+        dlist = []
+        for dic in dict:
+            dlist.append([dic, dict[dic]])
+        return dlist
 
 def post_list_pages(dict,page_no=1,tag=""):
     post_no = (len(dict))
@@ -151,4 +163,44 @@ def post_list_pages(dict,page_no=1,tag=""):
             post_printer(tag+dict[key],preview=1)
         wlog_foot(page_no,page_nos,tag)
 
+def do_rss():
+    print("Content-type: application/atom+xml\r\n")
+    print('<?xml version="1.0" encoding="utf-8"?>')
+    print('<feed xmlns="http://www.w3.org/2005/Atom">')
+    print("<title>", blog_title, "</title>")
+    print("<link rel='self' href='"+ full_url + blog_url + "posts.atom'/>")
+    print("<link href='"+ full_url + blog_url + "'/>")
+    print("<id>{0}{1}</id>".format(full_url, blog_url))
+    posts = sorted(post_list(pages_dir,1,1), reverse=True)
+    upd = posts[0][0].replace(" ", "").replace(".", "-")
+    upd = re.sub(r'\[(.*?)\]', 'T', upd)
+    upd += t_z
+    print("<updated>" + upd + "</updated>")
+    for post in posts:
+        print("\n<entry>")
+        post[0] = post[0].replace(" ","").replace(".", "-")
+        post[0] = re.sub(r'\[(.*?)\]', 'T', post[0])
+        post[0] += t_z
+        print("<updated>" + post[0] + "</updated>")
+        purl = full_url + blog_url + post[1]
+        p_id = full_url.replace("http://","tag:") + "," + post[0][:10]
+        p_id += ":" + blog_url + post[1]
+        print("<id>" + p_id + "</id>")
+        print("<link rel='alternate' href='" + purl + "'/>")
+        if "/" in posts[1]:
+            print("<category>", posts[1].split("/"), "</category>")
+        with open(pages_dir + post[1] + pages_extension) as p:
+            p = p.read().splitlines()
+            p[2] = "\n".join(p[2:])
+            if readmore in p[2]:
+                p[2] = p[2].split(readmore)
+                p[2] = p[2][0] + "<p> [*Post shortened*]({0})".format(purl)
+            p[2] = markdown(p[2])                    
+            p[2] = cgi.escape(p[2])
+            p[2] = p[2].replace('&amp;lt;', '&lt;').replace('&amp;gt;', '&gt;')
+        print("<title>", p[1], "</title>")
+        print("<content type='html'>", p[2], "</content>")
+        print("</entry>\n")
+    print("</feed>")
+    
 main()
