@@ -1,0 +1,16 @@
+head files
+* These are named like "head.theme"
+* Place for <head>, <body>, and any banners, etc
+* {0} - site name
+* {1} - blog name
+* {2} - page name
+
+post files
+* These are saved like "post.theme"
+* Place for per-post content (divs, dividers)
+* {0} - date/time posted
+* {1} - post URL
+* {2} - post title
+* {3} - category URL
+* {4} - category title
+* {5} - blog URL

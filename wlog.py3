@@ -9,7 +9,7 @@ t_z = ":00-08:00"	# used for RSS
 blog_url = "/wlog/wlog.py3"              # Absolute location for wlog on the server
 pages_dir = "./pages/"           # Location of blog posts relative to script on disk
 theme_dir = "./themes/"
-blog_theme = "wlog"              # Use head.wlog and post.wlog for wlog theme
+blog_theme = "red"              # Use head.wlog and post.wlog for wlog theme
 pagin = 3                       # Change this to change how many posts are shown per page
 markdown = mistune.Markdown()
 pages_extension = ".md"          # Default file extension. Markdown recommended
@@ -45,26 +45,26 @@ def main():
     elif os.path.isfile(pages_dir+page_name+pages_extension):
         post_printer(page_name)
         wlog_foot()        
-    else:
+        return
+    try:
+        page_no = int(page_name.split('/')[-1])
+        page_tag = page_name.split('/')[0:]
+        if int(page_tag[0]) != page_no:
+            post_list(pages_dir+page_tag[0],page_no)
+        else:
+            post_list(pages_dir,page_no)
+    except:
         try:
             page_no = int(page_name.split('/')[-1])
-            page_tag = page_name.split('/')[0:]
-            if int(page_tag[0]) != page_no:
-                post_list(pages_dir+page_tag[0],page_no)
-            else:
-                post_list(pages_dir,page_no)
+            page_tag = str(page_name.split('/')[:-1])[2:-2]
+            post_list(pages_dir+page_tag,page_no)
         except:
             try:
-                page_no = int(page_name.split('/')[-1])
-                page_tag = str(page_name.split('/')[:-1])[2:-2]
-                post_list(pages_dir+page_tag,page_no)
-            except:
-                try:
-                    page_tag = page_name.split('/')[0]
-                    post_list(pages_dir+page_tag,1)                
-                except:                               
-                    post_heading("404 :: "+page_name,"page not found ...",".")
-                    post_printer(page_name)   # fix this
+                page_tag = page_name.split('/')[0]
+                post_list(pages_dir+page_tag,1)                
+            except:                               
+                post_heading("404 :: "+page_name,"page not found ...",".")
+                post_printer(page_name)   # fix this
 
             
 def wlog_head(page_name=' '):
