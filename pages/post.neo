@@ -1,0 +1,5 @@
+<em><span id="date">{0}</span>
+<span id="tag" style="float:right">
+[<a href="{5}{3}">{4}</a>]</span></em>
+<hr style="border-top: 1px dotted"><span id="title">
+<strong><a href="{1}">{2}</a></strong></span>

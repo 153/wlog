@@ -1,0 +1,49 @@
+code, pre {
+    background-color: #ddd;
+    padding: 3px;
+}
+
+body {
+    background-color: #99f;
+    line-height: 1.5em;
+    max-width: 700px;
+    width: 95%;
+    text-align: justify;
+}
+
+hr {
+    border: 4px solid #00a;
+}
+
+a {
+    color: #11b;
+}
+
+.post {
+    background-color: #ccf;
+    padding: 2%;
+    margin-left: 4%;
+    border-radius: 1em;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid #000;
+}
+
+th, td {
+  border: 1px solid #000; 
+  padding: 2px
+}
+
+th {
+    background-color: #00a;
+    color: #eee;
+    padding: 0.5em;
+    font-weight: bold;
+}
+
+td {
+    background-color: #aae;
+    padding: 0.6em;
+}

@@ -1,0 +1,3 @@
+date: 2016.11.11 [Fri] 19:00
+planned refactoring
+I'm having some thoughts for refactoring wlog to use more functions, adding an external settings file, and using more generic templates. We've came a long way...

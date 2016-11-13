@@ -1,0 +1,8 @@
+<link rel="stylesheet" type="text/css" href="pages/bluer.css">
+<title>{1}{2}</title>
+
+<h1><a href="./wlog.py3">{1}</a></h1>
+<img src="http://4x13.net/bbs/img/rss.png">
+[<a href="./wlog.py3?title=meta/">meta</a>]
+[<a href="./wlog.py3?title=0">index</a>]
+<p><code>viewing {2}</code><p>

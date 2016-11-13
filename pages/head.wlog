@@ -1,0 +1,24 @@
+<head><link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="stylesheet" type="text/css" href="/buttondown.css">
+<link rel="alternate" type="application/atom+xml" title="wlog"
+href="./wlog.py3?title=posts.atom" />
+<meta name=viewport content="width=device-width, initial-scale=0.8">
+<title>{1}{2}</title>
+
+<body style="max-width: 650px; margin-left: auto; margin-right: auto;
+padding: 2% 2% 2% 2%;">
+<center>
+<h1>{1}</h1>
+<a href="./wlog.py3?title="><img src="./wlog.png" alt="{1}"></a>
+<br>[<a href="/">{0}</a>] [<a href="./wlog">{1}</a>]
+[<a href="./wlog.py3?title=posts.atom">RSS</a>]
+&diams;
+[<a href="./wlog.py3?title=meta/">meta</a>]
+[<a href="./wlog.py3?title=life/">life</a>]
+[<a href="./wlog.py3?title=philo/">philo</a>]
+[<a href="./wlog.py3?title=tech/">tech</a>]
+[<a href="./wlog.py3?title=misc/">misc</a>]
+<br><small><em>(code is alpha, expect nothing)</em> + 
+(<a href="/script./wlog.py3">modern theme</a>)</em></small>
+<!-- [<a href="/blog.py3?title=index.rss">rss</a>]-->
+</center>
