@@ -8,6 +8,7 @@ t_z = ":00-08:00"	# used for RSS
 #blog_url = "/wlog/"              # Absolute location for wlog on the server
 blog_url = "/wlog/wlog.py3"              # Absolute location for wlog on the server
 pages_dir = "./pages/"           # Location of blog posts relative to script on disk
+theme_dir = "./themes/"
 blog_theme = "bluer"              # Use head.wlog and post.wlog for wlog theme
 pagin = 3                       # Change this to change how many posts are shown per page
 markdown = mistune.Markdown()
@@ -15,6 +16,8 @@ pages_extension = ".md"          # Default file extension. Markdown recommended
 len_ext = len(pages_extension)
 readmore = "<...> "              # Line beginning with this creates a preview for indexing
 post_prefix = blog_url+"?title=" # Optionally change to blog_url
+date_prefix = "date: "
+ldp = len(date_prefix)
 #post_prefix = blog_url # Optionally change to "blog_url+"?title="
 
 def escape_html(text):
@@ -27,89 +30,94 @@ def escape_html(text):
 def main():
     form = cgi.FieldStorage()
     page_name = form.getvalue('title')
-    if page_name:
-        if page_name == 'posts.atom':
-            do_rss()
-            return
-        page_name = escape_html(page_name)            
-        wlog_head(page_name)
-        if page_name == '0':
-            post_list(pages_dir, '0')
-            return
-        elif os.path.isfile(pages_dir+page_name+pages_extension):
-            post_printer(page_name)
-            wlog_foot()        
-        else:
-            try:
-                page_no = int(page_name.split('/')[-1])
-                page_tag = page_name.split('/')[0:]
-                if int(page_tag[0]) != page_no:
-                    post_list(pages_dir+page_tag[0],page_no)
-                else:
-                    post_list(pages_dir,page_no)
-            except:
-                try:
-                    page_no = int(page_name.split('/')[-1])
-                    page_tag = str(page_name.split('/')[:-1])[2:-2]
-                    post_list(pages_dir+page_tag,page_no)
-                except:
-                    try:
-                        page_tag = page_name.split('/')[0]
-                        post_list(pages_dir+page_tag,1)                
-                    except:                               
-                        post_heading("404 :: "+page_name,"page not found ...",".")
-                        post_printer(page_name)   # fix this
-    else:
+    if not page_name:
         wlog_head("1")
         post_list(pages_dir,1)
+        return
+    if page_name == 'posts.atom':
+        do_rss()
+        return
+    page_name = escape_html(page_name)            
+    wlog_head(page_name)
+    if page_name == '0':
+        post_list(pages_dir, '0')
+        return
+    elif os.path.isfile(pages_dir+page_name+pages_extension):
+        post_printer(page_name)
+        wlog_foot()        
+    else:
+        try:
+            page_no = int(page_name.split('/')[-1])
+            page_tag = page_name.split('/')[0:]
+            if int(page_tag[0]) != page_no:
+                post_list(pages_dir+page_tag[0],page_no)
+            else:
+                post_list(pages_dir,page_no)
+        except:
+            try:
+                page_no = int(page_name.split('/')[-1])
+                page_tag = str(page_name.split('/')[:-1])[2:-2]
+                post_list(pages_dir+page_tag,page_no)
+            except:
+                try:
+                    page_tag = page_name.split('/')[0]
+                    post_list(pages_dir+page_tag,1)                
+                except:                               
+                    post_heading("404 :: "+page_name,"page not found ...",".")
+                    post_printer(page_name)   # fix this
+
             
 def wlog_head(page_name=' '):
     print("Content-type: text/html\r\n")
-    with open(pages_dir+"head."+blog_theme) as f:
+    with open(theme_dir+"head."+blog_theme) as f:
         if page_name:
             if page_name.split('/')[-1] == "":
                 page_name = " "+str(page_name.split('/')[0])
             else:
                 page_name = " "+str(page_name.split('/')[-1])
-            print(str(f.read()).format(site_name,blog_title," // "+page_name, post_prefix))
+            content = [site_name, blog_title, " // " + page_name, post_prefix]
+            print(str(f.read()).format(*content))
         else:
-            print(str(f.read()).format(site_name,blog_title,''))
+            print(str(f.read()).format(content[:1], blog_title,''))
 
-def post_heading(post_title,page_date="0",post_filename="", post_tag="/", tag_alias="/"):    
-    with open(pages_dir+"post."+blog_theme) as f:
-        print(str(f.read()).format(page_date,post_filename,post_title.strip(),post_tag,tag_alias,post_prefix))
+def post_heading(post_title, page_date="0",
+                 post_filename="", post_tag="/", tag_alias="/"):
+    content = [page_date, post_filename,
+               post_title.strip(), post_tag, tag_alias, post_prefix]
+    with open(theme_dir+"post."+blog_theme) as f:
+        print(str(f.read()).format(*content))
 
 def post_printer(page_name,preview=0,tag="",date="0"):
-    if os.path.isfile(pages_dir+page_name+pages_extension):
-        with open(pages_dir+page_name+pages_extension) as f:
-            contents = list(f)
-            if contents[0][:5] == "date:":
-                post_date = contents.pop(0)[5:]
-            else:
-                post_date = "Stickied post" # sticky, draft, etc?
-            post_tag = str(page_name.split('/')[0])
-            if post_tag != page_name:
-                tag_alias = "/"+post_tag+"/"
-                page_name = page_name.split("/")[-1]
-            else:
-                post_tag = "."
-                tag_alias = "/"
-            page_path = str(post_prefix+tag_alias[1:]+page_name)
-            previewed = []
-            for line in contents[1:]:
-                if line[:len(readmore)] == readmore:
-                    if preview == 1:
-                        previewed.append("\n<a href='"+page_path+"'>Read more...</a>")
-                        break
-                    else:
-                        previewed.append(line[len(readmore):])
-                else:
-                    previewed.append(line)
-            post_heading(contents[0], post_date, page_path, post_tag, tag_alias)
-            print(markdown(''.join(previewed)))
-            print('\n<!-- hr align="left" size="0.25" noshade="" -->')
-    else:
+    post_date = "Stickied post" # sticky, draft, etc?
+    tag_alias = "/"
+    post_tag = "."
+    
+    if not os.path.isfile(pages_dir+page_name+pages_extension):
         print("<p>Sorry, but [<em>"+page_name+"</em>] does not exist :(<hr>")
+        return
+    with open(pages_dir+page_name+pages_extension) as f:
+        contents = list(f)
+    if contents[0][:ldp] == date_prefix:
+        post_date = contents.pop(0)[ldp:]
+    if post_tag != page_name:
+        post_tag = str(page_name.split('/')[0])
+        tag_alias = "/"+post_tag+"/"
+        page_name = page_name.split("/")[-1]
+
+    page_path = str(post_prefix+tag_alias[1:]+page_name)
+    previewed = []
+    for line in contents[1:]:
+        if line[:len(readmore)] == readmore and preview == 1:
+            previewed.append("\n<a href='"+page_path+"'>Read more...</a>")
+            break
+        elif line[:len(readmore)] == readmore and not preview:
+            previewed.append(line[len(readmore):])
+        else:
+            previewed.append(line)
+            
+    post_heading(contents[0], post_date, page_path, post_tag, tag_alias)
+    print(markdown(''.join(previewed)))
+    print('\n<!-- hr align="left" size="0.25" noshade="" -->')
 
 def wlog_foot(page_no=0,page_nos=0,page_tag=""):
     print("""</div><p><div class="post"><hr><a href="/">[{0}]</a> &diams; 

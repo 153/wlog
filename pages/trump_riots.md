@@ -1,3 +1,0 @@
-date: 2016.11.12 [Sat] 22:23
-Trump Riots
-Here in my city, there are protests and riots against the recent appointing of president-elect, the next commander-in-chief of the United States of America, the billionaire, businessman, and former actor, Donald Trump...
