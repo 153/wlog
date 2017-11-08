@@ -99,10 +99,13 @@ def post_printer(page_name,preview=0,tag="",date="0"):
         contents = list(f)
     if contents[0][:ldp] == date_prefix:
         post_date = contents.pop(0)[ldp:]
+    post_tag = str(page_name.split('/')[0])
     if post_tag != page_name:
-        post_tag = str(page_name.split('/')[0])
         tag_alias = "/"+post_tag+"/"
         page_name = page_name.split("/")[-1]
+    else:
+        post_tag = "."
+        tag_alias = "/"
 
     page_path = str(post_prefix+tag_alias[1:]+page_name)
     previewed = []
