@@ -1,7 +1,9 @@
 # wlog v1
 public domain python weblog -- software of http://4x13.net/wlog/
 
-Sample theme and entry in this repo's ./pages/
+For an admin panel use [wlog-panel](https://github.com/153/wlog-panel/).
+
+Sample theme and entry in this repo's ./themes/
 
 Features implemented: markdown -> html, file -> post, templates,
 date and title from metadata, post indexing, pagination,
